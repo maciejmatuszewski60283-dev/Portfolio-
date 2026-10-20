@@ -71,46 +71,33 @@ const href = `/projekty/${project.id}/`;
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--bg-raised);
-    transition:
-      border-color 300ms var(--ease-out),
-      transform 400ms var(--ease-out),
-      box-shadow 400ms var(--ease-out);
-  }
-
-  .project-card:hover {
-    border-color: var(--border-strong);
-    transform: translateY(-4px);
-    box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.7);
   }
 
   .project-card__media {
     display: block;
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    border-bottom: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-alt);
   }
 
   .project-card__media :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 700ms var(--ease-out);
+    transition: transform 900ms var(--ease-out);
   }
 
   .project-card:hover .project-card__media :global(img) {
-    transform: scale(1.04);
+    transform: scale(1.05);
   }
 
   .project-card__body {
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: 0.9rem;
-    padding: 1.6rem;
+    gap: 0.8rem;
+    padding-top: 1.25rem;
   }
 
   .project-card__meta {
@@ -125,23 +112,22 @@ const href = `/projekty/${project.id}/`;
   }
 
   .project-card__status {
-    color: var(--accent);
-  }
-
-  .project-card__status[data-status='concept'] {
-    color: #9ed4ff;
+    color: var(--accent-text);
   }
 
   .project-card__title {
-    font-size: 1.5rem;
+    font-size: 1.625rem;
+    letter-spacing: -0.03em;
   }
 
   .project-card__title a {
+    background: linear-gradient(var(--accent), var(--accent)) 0 100% / 0 2px no-repeat;
     text-decoration: none;
+    transition: background-size 500ms var(--ease-out);
   }
 
-  .project-card__title a:hover {
-    color: var(--accent);
+  .project-card:hover .project-card__title a {
+    background-size: 100% 2px;
   }
 
   .project-card__text {
@@ -159,7 +145,7 @@ const href = `/projekty/${project.id}/`;
     flex-wrap: wrap;
     gap: 0.5rem 1.25rem;
     margin-top: auto;
-    padding-top: 0.75rem;
+    padding-top: 0.5rem;
     font-size: 0.9375rem;
     font-weight: 500;
   }
@@ -174,10 +160,10 @@ const href = `/projekty/${project.id}/`;
   }
 
   .project-card__links a:hover {
-    color: var(--text);
+    color: var(--ink);
   }
 
   .project-card__links .project-card__more {
-    color: var(--accent);
+    color: var(--ink);
   }
 </style>

@@ -26,4 +26,4 @@ Co zostało zaprojektowane i wdrożone.
 
 ## Efekt
 
-Rzeczywiste rezultaty — tylko te, które można potwierdzić.
+Rzeczywiste rezultaty, tylko te, które można potwierdzić.

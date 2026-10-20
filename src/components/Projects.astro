@@ -9,55 +9,32 @@ const projects = await getPublishedProjects();
 
 <section class="section" id="projekty" aria-labelledby="projekty-title">
   <div class="container">
-    <SectionHeading id="projekty-title" eyebrow="Portfolio" title="Wybrane projekty">
+    <SectionHeading id="projekty-title" index="03" eyebrow="Portfolio" title="Wybrane projekty">
       <p>
-        Każda realizacja w tym miejscu to prawdziwy projekt — z opisem wyzwania, przyjętego
-        rozwiązania i efektu.
+        Każda realizacja w tym miejscu to prawdziwy projekt, opisany od wyzwania, przez przyjęte
+        rozwiązanie, aż po efekt.
       </p>
     </SectionHeading>
 
     {projects.length > 0 ? (
       <ul role="list" class="projects">
         {projects.map((project, index) => (
-          <li data-reveal data-reveal-delay={index % 2}>
+          <li data-reveal="up" data-reveal-delay={index % 2}>
             <ProjectCard project={project} />
           </li>
         ))}
       </ul>
     ) : (
-      <div class="showcase glass" data-reveal>
-        <div class="showcase__visual" aria-hidden="true">
-          <div class="frame">
-            <div class="frame__bar">
-              <span />
-              <span />
-              <span />
-            </div>
-            <div class="frame__canvas">
-              <div class="frame__block frame__block--hero" />
-              <div class="frame__row">
-                <div class="frame__block" />
-                <div class="frame__block" />
-                <div class="frame__block" />
-              </div>
-              <div class="frame__outline">
-                <Icon name="arrow-up-right" size={22} />
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="showcase" data-reveal="scale">
         <div class="showcase__content">
-          <span class="showcase__icon">
-            <Icon name="folder" size={22} />
-          </span>
           <h3 class="showcase__title">Miejsce na Twój projekt</h3>
           <p class="showcase__text">
-            Rozwijam portfolio wyłącznie o realizacje, za którymi stoją prawdziwe potrzeby — bez
+            Portfolio rozwijam wyłącznie o realizacje, za którymi stoją prawdziwe potrzeby. Bez
             szablonowych makiet tworzonych na pokaz. Jeśli planujesz stronę internetową, aplikację
-            lub nowy interfejs, porozmawiajmy o tym, jak mógłby wyglądać.
+            albo nowy interfejs, porozmawiajmy o tym, jak mógłby wyglądać.
           </p>
           <div class="showcase__actions">
-            <a class="btn btn--primary" href="#kontakt">
+            <a class="btn btn--primary" href="#kontakt" data-magnetic>
               Opowiedz o swoim pomyśle
               <Icon name="arrow-right" />
             </a>
@@ -65,6 +42,50 @@ const projects = await getPublishedProjects();
               Zobacz, jak pracuję
             </a>
           </div>
+        </div>
+        <div class="showcase__visual" aria-hidden="true">
+          <svg class="sketch" viewBox="0 0 400 280" fill="none">
+            <rect class="sketch__path" x="10" y="10" width="380" height="260" rx="10" />
+            <path class="sketch__path" d="M10 46h380" />
+            <circle class="sketch__dot" cx="30" cy="28" r="4" />
+            <circle class="sketch__dot" cx="46" cy="28" r="4" />
+            <circle class="sketch__dot" cx="62" cy="28" r="4" />
+            <path class="sketch__path sketch__path--2" d="M36 84h190M36 108h140" />
+            <rect
+              class="sketch__path sketch__path--3"
+              x="36"
+              y="134"
+              width="96"
+              height="32"
+              rx="16"
+            />
+            <rect
+              class="sketch__path sketch__path--2"
+              x="36"
+              y="194"
+              width="100"
+              height="54"
+              rx="6"
+            />
+            <rect
+              class="sketch__path sketch__path--3"
+              x="150"
+              y="194"
+              width="100"
+              height="54"
+              rx="6"
+            />
+            <rect
+              class="sketch__path sketch__path--4"
+              x="264"
+              y="194"
+              width="100"
+              height="54"
+              rx="6"
+            />
+            <rect class="sketch__accent" x="262" y="72" width="102" height="94" rx="6" />
+            <path class="sketch__cursor" d="M300 132l26 10-11 4-5 11z" />
+          </svg>
         </div>
       </div>
     )}
@@ -74,7 +95,7 @@ const projects = await getPublishedProjects();
 <style>
   .projects {
     display: grid;
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
 
   @media (min-width: 48rem) {
@@ -85,108 +106,21 @@ const projects = await getPublishedProjects();
 
   .showcase {
     display: grid;
-    overflow: hidden;
-  }
-
-  .showcase__visual {
-    position: relative;
-    padding: 1.5rem 1.5rem 0;
-    background:
-      radial-gradient(90% 90% at 80% 0%, var(--glow-blue), transparent 60%),
-      radial-gradient(70% 70% at 0% 100%, var(--glow-lime), transparent 60%);
-  }
-
-  .frame {
-    max-width: 30rem;
-    margin-inline: auto;
-    border: 1px solid var(--border-strong);
-    border-bottom: 0;
-    border-radius: 14px 14px 0 0;
-    background: rgb(10 11 13 / 0.7);
-  }
-
-  .frame__bar {
-    display: flex;
-    gap: 0.35rem;
-    padding: 0.75rem 0.9rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .frame__bar span {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    background: rgb(255 255 255 / 0.14);
-  }
-
-  .frame__canvas {
-    position: relative;
-    display: grid;
-    gap: 0.75rem;
-    padding: 1.1rem;
-  }
-
-  .frame__block {
-    height: 3.5rem;
-    border: 1px dashed rgb(255 255 255 / 0.14);
-    border-radius: 8px;
-  }
-
-  .frame__block--hero {
-    height: 6.5rem;
-    border-color: rgb(201 242 122 / 0.3);
-    background: linear-gradient(135deg, var(--accent-soft), transparent);
-  }
-
-  .frame__row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-  }
-
-  .frame__outline {
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    display: grid;
-    place-items: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background: var(--accent);
-    color: var(--accent-ink);
-    box-shadow: 0 0 0 8px var(--accent-soft);
-    transition: transform 400ms var(--ease-out);
-  }
-
-  .showcase:hover .frame__outline {
-    transform: translate(3px, -3px) rotate(8deg);
-  }
-
-  .showcase__content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: clamp(1.75rem, 5vw, 3rem);
-  }
-
-  .showcase__icon {
-    display: grid;
-    place-items: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 12px;
-    color: var(--accent);
+    gap: 2.5rem;
+    padding: clamp(1.5rem, 5vw, 3.5rem);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
   }
 
   .showcase__title {
-    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-size: clamp(1.625rem, 3.5vw, 2.25rem);
+    letter-spacing: -0.035em;
   }
 
   .showcase__text {
     max-width: 34rem;
+    margin-top: 1rem;
     color: var(--text-muted);
   }
 
@@ -194,32 +128,105 @@ const projects = await getPublishedProjects();
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-top: 0.75rem;
+    margin-top: 1.75rem;
+  }
+
+  .sketch {
+    width: 100%;
+    max-width: 30rem;
+    margin-inline: auto;
+  }
+
+  .sketch__path {
+    stroke: var(--ink);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-dasharray: 1400;
+    stroke-dashoffset: 1400;
+  }
+
+  .sketch__dot {
+    fill: var(--line-strong);
+  }
+
+  .sketch__accent {
+    fill: var(--accent);
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(0);
+  }
+
+  .sketch__cursor {
+    fill: var(--ink);
+    opacity: 0;
+  }
+
+  :global(.is-visible) .sketch__path {
+    animation: draw 2.4s var(--ease-in-out) forwards;
+  }
+
+  :global(.is-visible) .sketch__path--2 {
+    animation-delay: 300ms;
+  }
+  :global(.is-visible) .sketch__path--3 {
+    animation-delay: 550ms;
+  }
+  :global(.is-visible) .sketch__path--4 {
+    animation-delay: 800ms;
+  }
+
+  :global(.is-visible) .sketch__accent {
+    animation: pop 700ms 1.6s var(--ease-out) forwards;
+  }
+
+  :global(.is-visible) .sketch__cursor {
+    animation: cursor 5s 2.2s var(--ease-in-out) infinite;
+  }
+
+  :global(html:not(.reveal-ready)) .sketch__path {
+    stroke-dashoffset: 0;
+  }
+
+  :global(html:not(.reveal-ready)) .sketch__accent {
+    transform: none;
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes pop {
+    60% {
+      transform: scale(1.08);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes cursor {
+    0% {
+      opacity: 0;
+      transform: translate(60px, 80px);
+    }
+    20%,
+    70% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(-40px, 40px);
+    }
   }
 
   @media (min-width: 56rem) {
     .showcase {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-      align-items: stretch;
-    }
-
-    .showcase__visual {
-      display: flex;
-      align-items: flex-end;
-      padding: 3rem 0 0 3rem;
-      order: 2;
-    }
-
-    .frame {
-      width: 100%;
-      max-width: none;
-      margin: 0;
-      border-right: 0;
-      border-radius: 14px 0 0 0;
-    }
-
-    .showcase__content {
-      justify-content: center;
+      align-items: center;
+      gap: 4rem;
     }
   }
 </style>

@@ -5,11 +5,11 @@ import { faq } from '@/data/faq';
 
 <section class="section" id="faq" aria-labelledby="faq-title">
   <div class="container faq">
-    <SectionHeading id="faq-title" eyebrow="FAQ" title="Najczęstsze pytania" />
+    <SectionHeading id="faq-title" index="05" eyebrow="FAQ" title="Najczęstsze pytania" />
 
-    <div class="faq__list" data-reveal>
+    <div class="faq__list">
       {faq.map((item, index) => (
-        <details class="faq__item" open={index === 0}>
+        <details class="faq__item" open={index === 0} data-reveal="up" data-reveal-delay={index}>
           <summary class="faq__question">
             <h3>{item.question}</h3>
             <span class="faq__icon" aria-hidden="true" />
@@ -26,15 +26,14 @@ import { faq } from '@/data/faq';
 <style>
   .faq {
     display: grid;
-    gap: 0;
   }
 
   .faq__list {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--line-strong);
   }
 
   .faq__item {
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--line-strong);
   }
 
   .faq__question {
@@ -52,14 +51,14 @@ import { faq } from '@/data/faq';
   }
 
   .faq__question h3 {
-    font-size: clamp(1.0625rem, 2vw, 1.25rem);
+    font-size: clamp(1.0625rem, 2vw, 1.3125rem);
     font-weight: 500;
     letter-spacing: -0.015em;
-    transition: color var(--duration) var(--ease-out);
+    transition: transform 400ms var(--ease-out);
   }
 
   .faq__question:hover h3 {
-    color: var(--accent);
+    transform: translateX(6px);
   }
 
   .faq__icon {
@@ -67,11 +66,12 @@ import { faq } from '@/data/faq';
     flex-shrink: 0;
     width: 2.25rem;
     height: 2.25rem;
-    border: 1px solid var(--border-strong);
+    border: 1px solid var(--line-strong);
     border-radius: 50%;
     transition:
-      transform 300ms var(--ease-out),
-      border-color 300ms var(--ease-out);
+      background-color 300ms var(--ease-out),
+      border-color 300ms var(--ease-out),
+      transform 400ms var(--ease-out);
   }
 
   .faq__icon::before,
@@ -82,9 +82,9 @@ import { faq } from '@/data/faq';
     left: 50%;
     width: 0.75rem;
     height: 1.5px;
-    background: var(--text);
+    background: currentColor;
     translate: -50% -50%;
-    transition: transform 300ms var(--ease-out);
+    transition: transform 400ms var(--ease-out);
   }
 
   .faq__icon::after {
@@ -93,6 +93,8 @@ import { faq } from '@/data/faq';
 
   .faq__item[open] .faq__icon {
     border-color: var(--accent);
+    background: var(--accent);
+    color: var(--ink);
     transform: rotate(180deg);
   }
 
@@ -101,19 +103,20 @@ import { faq } from '@/data/faq';
   }
 
   .faq__answer {
-    max-width: 46rem;
+    max-width: 44rem;
     padding: 0 3.5rem 1.6rem 0;
     color: var(--text-muted);
   }
 
   .faq__item[open] .faq__answer {
-    animation: faq-open 400ms var(--ease-out);
+    animation: faq-open 500ms var(--ease-out);
   }
 
   @keyframes faq-open {
     from {
       opacity: 0;
-      transform: translateY(-6px);
+      transform: translateY(-8px);
+      filter: blur(2px);
     }
   }
 

@@ -13,7 +13,7 @@ export const processSteps = [
   },
   {
     title: 'Wdrożenie',
-    text: 'Zamieniam projekt w działający kod — responsywny, szybki, dostępny i przygotowany pod wyszukiwarki.',
+    text: 'Zamieniam projekt w działający kod: responsywny, szybki, dostępny i przygotowany pod wyszukiwarki.',
   },
   {
     title: 'Testy i publikacja',

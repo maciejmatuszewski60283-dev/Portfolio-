@@ -11,9 +11,9 @@ export const site = {
   country: 'Polska',
   countryCode: 'PL',
 
-  title: 'Maciej Matuszewski — web developer i projektant stron internetowych, Poznań',
+  title: 'Maciej Matuszewski | Web developer i projektant stron internetowych, Poznań',
   description:
-    'Projektowanie i tworzenie nowoczesnych stron internetowych, aplikacji webowych i interfejsów UI/UX. Maciej Matuszewski — web developer z Poznania.',
+    'Projektowanie i tworzenie nowoczesnych stron internetowych, aplikacji webowych i interfejsów UI/UX. Maciej Matuszewski, web developer z Poznania.',
 
   /**
    * Publiczny link do profilu lub serwera Discord, np. https://discord.com/users/<ID>
@@ -21,7 +21,7 @@ export const site = {
    */
   discordUrl: '',
 
-  /** Publiczny adres e-mail wyświetlany w sekcji kontaktu. Pusta wartość — adres nie jest pokazywany. */
+  /** Publiczny adres e-mail wyświetlany w sekcji kontaktu. Pusta wartość: adres nie jest pokazywany. */
   email: '',
 
   /** Profile społecznościowe. Wyświetlane są tylko pozycje z uzupełnionym adresem. */

@@ -13,7 +13,7 @@ const year = new Date().getFullYear();
         <Logo />
         <p class="footer__tagline">
           {site.rolePl}. Projektowanie i tworzenie stron internetowych, aplikacji webowych i
-          interfejsów — {site.city}.
+          interfejsów w Poznaniu.
         </p>
       </div>
 
@@ -57,6 +57,14 @@ const year = new Date().getFullYear();
       </div>
     </div>
 
+    <p class="footer__wordmark" aria-hidden="true" data-reveal="up">
+      {site.name.split('').map((char, index) => (
+        <span class="footer__char" data-i={index % 8}>
+          {char === ' ' ? ' ' : char}
+        </span>
+      ))}
+    </p>
+
     <div class="footer__bottom">
       <p>
         © {year} {site.name}. Wszelkie prawa zastrzeżone.
@@ -71,9 +79,10 @@ const year = new Date().getFullYear();
 
 <style>
   .footer {
-    padding-block: 4rem calc(2rem + env(safe-area-inset-bottom));
-    border-top: 1px solid var(--border);
-    background: linear-gradient(180deg, transparent, rgb(255 255 255 / 0.015));
+    padding-block: 4.5rem calc(2rem + env(safe-area-inset-bottom));
+    overflow: hidden;
+    background: var(--ink);
+    color: var(--on-ink);
   }
 
   .footer__top {
@@ -81,16 +90,21 @@ const year = new Date().getFullYear();
     gap: 2.5rem;
   }
 
+  .footer__brand :global(.logo__mark) {
+    background: var(--on-ink);
+    color: var(--ink);
+  }
+
   .footer__tagline {
     max-width: 22rem;
     margin-top: 1.25rem;
-    color: var(--text-muted);
+    color: rgb(243 241 236 / 0.7);
     font-size: 0.9375rem;
   }
 
   .footer__heading {
     margin-bottom: 1rem;
-    color: var(--text-subtle);
+    color: rgb(243 241 236 / 0.6);
     font-size: 0.8125rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -107,14 +121,69 @@ const year = new Date().getFullYear();
     align-items: center;
     gap: 0.4rem;
     padding-block: 0.3rem;
-    color: var(--text-muted);
+    color: rgb(243 241 236 / 0.8);
     font-size: 0.9375rem;
     text-decoration: none;
+    transition:
+      color var(--duration) var(--ease-out),
+      transform 300ms var(--ease-out);
   }
 
-  .footer__nav a:hover,
+  .footer__nav a:hover {
+    color: var(--on-ink);
+    transform: translateX(4px);
+  }
+
   .footer__top-link:hover {
-    color: var(--text);
+    color: var(--on-ink);
+  }
+
+  .footer__wordmark {
+    display: flex;
+    margin-top: 4rem;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 8.6vw, 8.25rem);
+    font-weight: 600;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    white-space: nowrap;
+  }
+
+  .footer__char {
+    display: inline-block;
+    transition:
+      transform 500ms var(--ease-out),
+      color 300ms var(--ease-out);
+  }
+
+  .footer__wordmark:hover .footer__char {
+    transform: translateY(-0.08em);
+  }
+
+  .footer__char:hover {
+    color: var(--accent);
+  }
+
+  .footer__wordmark :global(.footer__char[data-i='1']) {
+    transition-delay: 20ms;
+  }
+  .footer__wordmark :global(.footer__char[data-i='2']) {
+    transition-delay: 40ms;
+  }
+  .footer__wordmark :global(.footer__char[data-i='3']) {
+    transition-delay: 60ms;
+  }
+  .footer__wordmark :global(.footer__char[data-i='4']) {
+    transition-delay: 80ms;
+  }
+  .footer__wordmark :global(.footer__char[data-i='5']) {
+    transition-delay: 100ms;
+  }
+  .footer__wordmark :global(.footer__char[data-i='6']) {
+    transition-delay: 120ms;
+  }
+  .footer__wordmark :global(.footer__char[data-i='7']) {
+    transition-delay: 140ms;
   }
 
   .footer__bottom {
@@ -123,10 +192,10 @@ const year = new Date().getFullYear();
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    margin-top: 3.5rem;
-    padding-top: 1.75rem;
-    border-top: 1px solid var(--border);
-    color: var(--text-subtle);
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgb(243 241 236 / 0.18);
+    color: rgb(243 241 236 / 0.65);
     font-size: 0.875rem;
   }
 
@@ -135,7 +204,7 @@ const year = new Date().getFullYear();
   }
 
   .footer__top-link:hover :global(svg) {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
   }
 
   @media (min-width: 48rem) {

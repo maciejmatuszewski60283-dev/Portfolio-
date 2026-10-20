@@ -19,7 +19,7 @@ const effectiveDate = legal.effectiveDate
 ---
 
 <DocumentLayout
-  title={`Polityka prywatności — ${site.name}`}
+  title={`Polityka prywatności | ${site.name}`}
   heading="Polityka prywatności"
   description={`Informacje o przetwarzaniu danych osobowych i plikach cookies na stronie ${site.name}.`}
   noindex
@@ -66,28 +66,27 @@ const effectiveDate = legal.effectiveDate
   <h3>Cele i podstawy prawne przetwarzania</h3>
   <ul>
     <li>
-      udzielenie odpowiedzi i prowadzenie korespondencji — prawnie uzasadniony interes
-      administratora polegający na komunikacji z osobami, które się z nim kontaktują (art. 6 ust. 1
-      lit. f RODO);
+      udzielenie odpowiedzi i prowadzenie korespondencji: prawnie uzasadniony interes administratora
+      polegający na komunikacji z osobami, które się z nim kontaktują (art. 6 ust. 1 lit. f RODO);
     </li>
     <li>
       podjęcie działań na Twoje żądanie przed zawarciem umowy, np. przygotowanie wyceny (art. 6 ust.
       1 lit. b RODO);
     </li>
     <li>
-      ewentualne ustalenie, dochodzenie lub obrona roszczeń — prawnie uzasadniony interes
+      ewentualne ustalenie, dochodzenie lub obrona roszczeń: prawnie uzasadniony interes
       administratora (art. 6 ust. 1 lit. f RODO).
     </li>
   </ul>
   <p>
     Zaznaczenie pola przy formularzu potwierdza zapoznanie się z tymi informacjami. Nie jest zgodą
-    na przetwarzanie danych w celach marketingowych — dane z formularza nie są wykorzystywane do
+    na przetwarzanie danych w celach marketingowych. Dane z formularza nie są wykorzystywane do
     wysyłki newslettera ani reklam.
   </p>
   <h3>Okres przechowywania</h3>
   <p>
     Korespondencja jest przechowywana przez okres niezbędny do jej prowadzenia, a jeśli nie dojdzie
-    do współpracy — przez <Fill value={legal.retentionPeriod} label="okres, np. 12 miesięcy" /> od
+    do współpracy, przez <Fill value={legal.retentionPeriod} label="okres, np. 12 miesięcy" /> od
     ostatniej wiadomości. Jeżeli zostanie zawarta umowa, dane będą przechowywane przez okres jej
     realizacji oraz przedawnienia roszczeń i wymagany przepisami prawa.
   </p>
@@ -107,14 +106,14 @@ const effectiveDate = legal.effectiveDate
   <p>Dane mogą być przekazywane podmiotom, które pomagają w prowadzeniu strony:</p>
   <ul>
     <li>
-      <strong>{legal.hostingProvider}</strong> — hosting strony, sieć CDN i ochrona przed atakami;
+      <strong>{legal.hostingProvider}</strong>: hosting strony, sieć CDN i ochrona przed atakami;
     </li>
     <li>
-      <strong>{legal.emailProvider}</strong> — techniczne dostarczenie wiadomości z formularza na
+      <strong>{legal.emailProvider}</strong>: techniczne dostarczenie wiadomości z formularza na
       skrzynkę administratora;
     </li>
     <li>
-      dostawca poczty elektronicznej administratora —
+      dostawca poczty elektronicznej administratora:
       <Fill value={legal.mailboxProvider} label="nazwa dostawcy skrzynki e-mail" />.
     </li>
   </ul>
@@ -127,8 +126,8 @@ const effectiveDate = legal.effectiveDate
   <p>
     Dostawcy wymienieni powyżej mogą przetwarzać dane również poza EOG, w szczególności w Stanach
     Zjednoczonych. W takim przypadku przekazanie odbywa się na podstawie decyzji Komisji
-    Europejskiej stwierdzającej odpowiedni stopień ochrony (EU-U.S. Data Privacy Framework) — o ile
-    dany dostawca jest nim objęty — lub standardowych klauzul umownych zatwierdzonych przez Komisję
+    Europejskiej stwierdzającej odpowiedni stopień ochrony (EU-U.S. Data Privacy Framework), o ile
+    dany dostawca jest nim objęty, lub standardowych klauzul umownych zatwierdzonych przez Komisję
     Europejską.
     <Fill
       value={legal.transferBasis}
@@ -143,14 +142,14 @@ const effectiveDate = legal.effectiveDate
     <li>sprostowania danych, które są nieprawidłowe;</li>
     <li>usunięcia danych;</li>
     <li>ograniczenia przetwarzania;</li>
-    <li>przenoszenia danych — w zakresie, w jakim są przetwarzane w związku z umową;</li>
+    <li>przenoszenia danych w zakresie, w jakim są przetwarzane w związku z umową;</li>
     <li>
       wniesienia sprzeciwu wobec przetwarzania opartego na prawnie uzasadnionym interesie
       administratora;
     </li>
     <li>
-      wniesienia skargi do organu nadzorczego — Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki
-      2, 00-193 Warszawa).
+      wniesienia skargi do organu nadzorczego, czyli Prezesa Urzędu Ochrony Danych Osobowych (ul.
+      Stawki 2, 00-193 Warszawa).
     </li>
   </ul>
   <p>Dane nie są wykorzystywane do zautomatyzowanego podejmowania decyzji ani profilowania.</p>
@@ -190,10 +189,10 @@ const effectiveDate = legal.effectiveDate
 <style>
   .draft-notice {
     padding: 1rem 1.1rem;
-    border: 1px solid rgb(255 197 138 / 0.35);
+    border: 1px solid #e0b26d;
     border-radius: 12px;
-    background: rgb(255 197 138 / 0.08);
-    color: #ffc58a;
+    background: #fbf1df;
+    color: #7a4a00;
     font-size: 0.9375rem;
   }
 

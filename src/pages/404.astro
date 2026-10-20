@@ -5,7 +5,7 @@ import { site } from '@/config/site';
 ---
 
 <BaseLayout
-  title={`Nie znaleziono strony — ${site.name}`}
+  title={`Nie znaleziono strony | ${site.name}`}
   description="Strona nie istnieje."
   noindex
 >
@@ -48,10 +48,7 @@ import { site } from '@/config/site';
   }
 
   .not-found__code {
-    background: linear-gradient(100deg, var(--text), var(--accent));
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
+    color: var(--accent);
     font-family: var(--font-display);
     font-size: clamp(5rem, 20vw, 9rem);
     font-weight: 600;

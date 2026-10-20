@@ -4,7 +4,7 @@ import { legal } from '@/config/legal';
 import { contactLimits } from '@/lib/contact-rules';
 ---
 
-<form class="form glass" action="/api/contact" method="post" novalidate data-contact-form>
+<form class="form" action="/api/contact" method="post" novalidate data-contact-form>
   <div class="form__grid">
     <div class="field">
       <label class="field__label" for="contact-name">
@@ -312,6 +312,9 @@ import { contactLimits } from '@/lib/contact-rules';
   .form {
     position: relative;
     padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--surface);
   }
 
   .form__grid {
@@ -333,7 +336,7 @@ import { contactLimits } from '@/lib/contact-rules';
   .field__label span[aria-hidden],
   .checkbox__label span[aria-hidden],
   .form__required span {
-    color: var(--accent);
+    color: var(--accent-text);
   }
 
   .field__optional {
@@ -345,9 +348,9 @@ import { contactLimits } from '@/lib/contact-rules';
     width: 100%;
     min-height: 3rem;
     padding: 0.75rem 1rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 12px;
-    background: rgb(0 0 0 / 0.22);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    background: var(--bg);
     font-size: 1rem;
     transition:
       border-color var(--duration) var(--ease-out),
@@ -356,14 +359,14 @@ import { contactLimits } from '@/lib/contact-rules';
   }
 
   .field__input:hover {
-    border-color: rgb(255 255 255 / 0.24);
+    border-color: var(--ink);
   }
 
   .field__input:focus {
     outline: none;
-    border-color: var(--accent);
-    background: rgb(0 0 0 / 0.32);
-    box-shadow: 0 0 0 4px var(--accent-soft);
+    border-color: var(--ink);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px rgb(226 71 29 / 0.22);
   }
 
   .field__input[aria-invalid='true'] {
@@ -371,7 +374,7 @@ import { contactLimits } from '@/lib/contact-rules';
   }
 
   .field__input[aria-invalid='true']:focus {
-    box-shadow: 0 0 0 4px var(--danger-soft);
+    box-shadow: 0 0 0 3px rgb(180 35 24 / 0.18);
   }
 
   .field__input--area {
@@ -436,7 +439,7 @@ import { contactLimits } from '@/lib/contact-rules';
     width: 1.25rem;
     height: 1.25rem;
     margin: 0.15rem 0 0;
-    accent-color: var(--accent);
+    accent-color: var(--ink);
     cursor: pointer;
   }
 
@@ -454,13 +457,13 @@ import { contactLimits } from '@/lib/contact-rules';
 
   .checkbox__label a,
   .form__notice a {
-    color: var(--text);
+    color: var(--ink);
   }
 
   .form__notice {
     margin-top: 1.25rem;
     padding-top: 1.25rem;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--line);
     color: var(--text-subtle);
     font-size: 0.8125rem;
     line-height: 1.6;
@@ -482,8 +485,8 @@ import { contactLimits } from '@/lib/contact-rules';
     display: none;
     width: 1rem;
     height: 1rem;
-    border: 2px solid rgb(13 18 3 / 0.25);
-    border-top-color: var(--accent-ink);
+    border: 2px solid rgb(243 241 236 / 0.3);
+    border-top-color: var(--on-ink);
     border-radius: 50%;
     animation: spin 700ms linear infinite;
   }
@@ -528,19 +531,19 @@ import { contactLimits } from '@/lib/contact-rules';
     margin-top: 1.25rem;
     padding: 1rem 1.1rem;
     border: 1px solid;
-    border-radius: 12px;
+    border-radius: var(--radius);
     font-size: 0.9375rem;
     animation: status-in 400ms var(--ease-out);
   }
 
   .form__status[data-state='success'] {
-    border-color: rgb(159 227 160 / 0.35);
-    background: rgb(159 227 160 / 0.08);
+    border-color: rgb(29 107 58 / 0.35);
+    background: var(--success-soft);
     color: var(--success);
   }
 
   .form__status[data-state='error'] {
-    border-color: rgb(255 138 128 / 0.35);
+    border-color: rgb(180 35 24 / 0.35);
     background: var(--danger-soft);
     color: var(--danger);
   }

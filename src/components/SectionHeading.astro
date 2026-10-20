@@ -3,19 +3,22 @@ interface Props {
   id: string;
   eyebrow: string;
   title: string;
-  align?: 'start' | 'center';
+  index?: string;
 }
 
-const { id, eyebrow, title, align = 'start' } = Astro.props;
+const { id, eyebrow, title, index } = Astro.props;
 ---
 
-<header class:list={['section-heading', `section-heading--${align}`]} data-reveal>
-  <p class="eyebrow">{eyebrow}</p>
-  <h2 id={id} class="section-heading__title">
+<header class="section-heading">
+  <p class="section-heading__meta" data-reveal="up">
+    {index && <span class="section-heading__index">{index}</span>}
+    <span class="eyebrow">{eyebrow}</span>
+  </p>
+  <h2 id={id} class="section-heading__title" data-reveal="clip">
     {title}
   </h2>
   {Astro.slots.has('default') && (
-    <div class="section-heading__lead lead">
+    <div class="section-heading__lead lead" data-reveal="up" data-reveal-delay="1">
       <slot />
     </div>
   )}
@@ -24,19 +27,26 @@ const { id, eyebrow, title, align = 'start' } = Astro.props;
 <style>
   .section-heading {
     display: grid;
-    gap: 1.25rem;
-    max-width: 44rem;
+    gap: 1.1rem;
+    max-width: 46rem;
     margin-bottom: clamp(2.5rem, 6vw, 4rem);
   }
 
-  .section-heading--center {
-    justify-items: center;
-    margin-inline: auto;
-    text-align: center;
+  .section-heading__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-heading__index {
+    color: var(--text-subtle);
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
   }
 
   .section-heading__title {
-    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-size: clamp(2.1rem, 5.5vw, 3.75rem);
+    letter-spacing: -0.04em;
   }
 
   .section-heading__lead :global(p + p) {

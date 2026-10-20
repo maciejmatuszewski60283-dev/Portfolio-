@@ -6,24 +6,25 @@ import { about } from '@/data/about';
 
 <section class="section" id="o-mnie" aria-labelledby="o-mnie-title">
   <div class="container about">
-    <div class="about__intro">
+    <div>
       <SectionHeading
         id="o-mnie-title"
+        index="01"
         eyebrow="O mnie"
         title="Projektuję i programuję z myślą o ludziach."
       />
-      <div class="about__text" data-reveal>
+      <div class="about__text" data-reveal="up">
         {about.paragraphs.map((paragraph) => (
           <p>{paragraph}</p>
         ))}
       </div>
     </div>
 
-    <ul role="list" class="about__principles">
+    <ul role="list" class="principles">
       {about.principles.map((principle, index) => (
-        <li class="principle" data-reveal data-reveal-delay={index}>
+        <li class="principle" data-reveal="left" data-reveal-delay={index}>
           <span class="principle__icon">
-            <Icon name={principle.icon} size={22} />
+            <Icon name={principle.icon} size={20} />
           </span>
           <div>
             <h3 class="principle__title">{principle.title}</h3>
@@ -44,47 +45,45 @@ import { about } from '@/data/about';
   .about__text {
     display: grid;
     gap: 1.25rem;
-    max-width: 40rem;
+    max-width: 38rem;
     color: var(--text-muted);
     font-size: 1.0625rem;
   }
 
   .about__text p:first-child {
-    color: var(--text);
+    color: var(--ink);
     font-size: 1.1875rem;
   }
 
-  .about__principles {
-    display: grid;
-    gap: 1px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--border);
+  .principles {
+    border-top: 1px solid var(--line-strong);
   }
 
   .principle {
     display: flex;
     gap: 1.1rem;
-    padding: 1.6rem;
-    background: var(--bg);
-    transition: background-color 300ms var(--ease-out);
-  }
-
-  .principle:hover {
-    background: var(--bg-raised);
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--line-strong);
   }
 
   .principle__icon {
     display: grid;
     flex-shrink: 0;
     place-items: center;
-    width: 2.75rem;
-    height: 2.75rem;
-    border: 1px solid rgb(201 242 122 / 0.22);
-    border-radius: 12px;
-    background: var(--accent-soft);
-    color: var(--accent);
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    transition:
+      background-color 300ms var(--ease-out),
+      color 300ms var(--ease-out),
+      transform 500ms var(--ease-out);
+  }
+
+  .principle:hover .principle__icon {
+    background: var(--ink);
+    color: var(--on-ink);
+    transform: rotate(-15deg);
   }
 
   .principle__title {
@@ -93,7 +92,7 @@ import { about } from '@/data/about';
   }
 
   .principle__text {
-    margin-top: 0.4rem;
+    margin-top: 0.35rem;
     color: var(--text-muted);
     font-size: 0.9375rem;
   }
@@ -102,11 +101,7 @@ import { about } from '@/data/about';
     .about {
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
       gap: 5rem;
-      align-items: start;
-    }
-
-    .about__principles {
-      margin-top: 4.5rem;
+      align-items: end;
     }
   }
 </style>

@@ -20,7 +20,7 @@ const {
   title = site.title,
   description = site.description,
   image = '/og-image.png',
-  imageAlt = `${site.name} — ${site.rolePl}, ${site.city}`,
+  imageAlt = `${site.name}, ${site.rolePl.toLowerCase()}, ${site.city}`,
   noindex = false,
   type = 'website',
   structuredData = [],
@@ -43,7 +43,7 @@ const imageUrl = new URL(image, site.url).href;
       content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'}
     />
     <meta name="author" content={site.name} />
-    <meta name="theme-color" content="#0a0b0d" />
+    <meta name="theme-color" content="#f3f1ec" />
     <meta name="format-detection" content="telephone=no" />
     {site.googleSiteVerification && (
       <meta name="google-site-verification" content={site.googleSiteVerification} />
@@ -77,6 +77,7 @@ const imageUrl = new URL(image, site.url).href;
     ))}
   </head>
   <body>
+    <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
     <a class="skip-link" href="#tresc">
       Przejdź do treści
     </a>

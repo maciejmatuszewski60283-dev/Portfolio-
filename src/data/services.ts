@@ -12,7 +12,7 @@ export const services: Service[] = [
     icon: 'browser',
     title: 'Strony internetowe',
     description:
-      'Nowoczesne, responsywne strony internetowe dla firm, specjalistów i projektów osobistych — od wizytówki po rozbudowany serwis.',
+      'Nowoczesne, responsywne strony internetowe dla firm, specjalistów i projektów osobistych, od wizytówki po rozbudowany serwis.',
     scope: [
       'Strony firmowe i wizytówki',
       'Landing page i strony produktowe',
@@ -56,7 +56,7 @@ export const services: Service[] = [
     icon: 'code',
     title: 'Projekty programistyczne',
     description:
-      'Rozwiązania programistyczne dopasowane do konkretnego problemu — od integracji po narzędzia automatyzujące pracę.',
+      'Rozwiązania programistyczne dopasowane do konkretnego problemu, od integracji po narzędzia automatyzujące pracę.',
     scope: ['Integracje i formularze', 'Rozwój istniejących stron', 'Optymalizacja wydajności'],
   },
 ];

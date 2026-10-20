@@ -4,7 +4,7 @@
  */
 export const legal = {
   controllerName: 'Maciej Matuszewski',
-  /** Np. nazwa działalności, adres, NIP — jeśli działalność jest zarejestrowana. */
+  /** Np. nazwa działalności, adres, NIP, jeśli działalność jest zarejestrowana. */
   controllerDetails: '',
   /** Adres e-mail do spraw związanych z danymi osobowymi. */
   privacyEmail: '',
@@ -16,6 +16,6 @@ export const legal = {
   emailProvider: 'Resend (Plus Five Five, Inc.)',
   /** Dostawca skrzynki, na którą trafiają wiadomości z formularza, np. Google (Gmail). */
   mailboxProvider: '',
-  /** Potwierdzony mechanizm transferu danych poza EOG dla dostawców — wymaga weryfikacji. */
+  /** Potwierdzony mechanizm transferu danych poza EOG dla dostawców, wymaga weryfikacji. */
   transferBasis: '',
 } as const;

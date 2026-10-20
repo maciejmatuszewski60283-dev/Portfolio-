@@ -5,18 +5,22 @@ import SectionHeading from './SectionHeading.astro';
 import { activeSocials, site } from '@/config/site';
 ---
 
-<section class="section contact" id="kontakt" aria-labelledby="kontakt-title">
-  <div class="contact__glow" aria-hidden="true"></div>
+<section class="section section--alt contact" id="kontakt" aria-labelledby="kontakt-title">
   <div class="container contact__inner">
     <div class="contact__intro">
-      <SectionHeading id="kontakt-title" eyebrow="Kontakt" title="Porozmawiajmy o Twoim projekcie">
+      <SectionHeading
+        id="kontakt-title"
+        index="06"
+        eyebrow="Kontakt"
+        title="Porozmawiajmy o Twoim projekcie"
+      >
         <p>
           Planujesz nową stronę internetową, aplikację albo odświeżenie istniejącego serwisu? Opisz
           krótko, czego potrzebujesz. Odpowiem z propozycją kolejnych kroków.
         </p>
       </SectionHeading>
 
-      <ul role="list" class="channels" data-reveal>
+      <ul role="list" class="channels" data-reveal="up">
         <li class="channel">
           <span class="channel__icon">
             <Icon name="map-pin" size={20} />
@@ -82,31 +86,13 @@ import { activeSocials, site } from '@/config/site';
       </ul>
     </div>
 
-    <div class="contact__form" data-reveal data-reveal-delay="1">
+    <div class="contact__form" data-reveal="up" data-reveal-delay="1">
       <ContactForm />
     </div>
   </div>
 </section>
 
 <style>
-  .contact {
-    overflow: clip;
-    isolation: isolate;
-  }
-
-  .contact__glow {
-    position: absolute;
-    right: -20%;
-    bottom: -30%;
-    z-index: -1;
-    width: min(90vw, 760px);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--glow-lime), transparent 62%);
-    filter: blur(40px);
-    pointer-events: none;
-  }
-
   .contact__inner {
     display: grid;
     gap: 2.5rem;
@@ -129,9 +115,16 @@ import { activeSocials, site } from '@/config/site';
     place-items: center;
     width: 2.75rem;
     height: 2.75rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 12px;
-    color: var(--accent);
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    transition:
+      background-color 300ms var(--ease-out),
+      color 300ms var(--ease-out);
+  }
+
+  .channel:hover .channel__icon {
+    background: var(--ink);
+    color: var(--on-ink);
   }
 
   .channel__label {
@@ -145,11 +138,12 @@ import { activeSocials, site } from '@/config/site';
   }
 
   a.channel__value {
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
   }
 
   a.channel__value:hover {
-    color: var(--accent);
+    text-decoration-color: var(--accent);
   }
 
   @media (min-width: 64rem) {

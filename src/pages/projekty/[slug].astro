@@ -45,7 +45,7 @@ const structuredData = [
 ---
 
 <BaseLayout
-  title={`${data.title} — projekt | ${site.name}`}
+  title={`${data.title} | Projekt | ${site.name}`}
   description={data.description}
   image={data.cover.src}
   imageAlt={data.coverAlt}
@@ -184,7 +184,7 @@ const structuredData = [
   }
 
   .project__breadcrumbs a:hover {
-    color: var(--text);
+    color: var(--ink);
   }
 
   .project__header {
@@ -225,8 +225,8 @@ const structuredData = [
   .project__cover {
     margin: 3.5rem 0 0;
     overflow: hidden;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
   }
 
   .project__cover :global(img) {
@@ -241,7 +241,7 @@ const structuredData = [
 
   .project__content :global(h2) {
     margin: 2.5rem 0 1rem;
-    color: var(--text);
+    color: var(--ink);
     font-size: 1.75rem;
   }
 
@@ -258,7 +258,7 @@ const structuredData = [
 
   .project__gallery :global(img) {
     width: 100%;
-    border: 1px solid var(--border);
+    border: 1px solid var(--line);
     border-radius: var(--radius);
   }
 
@@ -270,9 +270,9 @@ const structuredData = [
     gap: 1.5rem;
     margin-top: 4rem;
     padding: 2rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    background: var(--accent-soft);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-alt);
   }
 
   .project__cta h2 {

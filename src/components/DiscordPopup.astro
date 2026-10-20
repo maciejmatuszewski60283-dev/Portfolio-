@@ -22,7 +22,7 @@ import { site } from '@/config/site';
       </p>
     </div>
     <p class="discord__text">
-      Napisz do mnie na Discordzie — porozmawiamy o Twojej stronie lub aplikacji.
+      Napisz do mnie na Discordzie. Porozmawiamy o Twojej stronie lub aplikacji.
     </p>
     <a
       class="btn btn--primary discord__cta"
@@ -125,25 +125,16 @@ import { site } from '@/config/site';
     max-width: 22.5rem;
     margin-left: auto;
     padding: 1.25rem;
-    border: 1px solid var(--border-strong);
-    border-radius: 18px;
-    background: rgb(17 19 23 / 0.94);
-    box-shadow:
-      0 1px 0 rgb(255 255 255 / 0.05) inset,
-      0 24px 60px -20px rgb(0 0 0 / 0.75);
+    border: 1px solid var(--ink);
+    border-radius: 10px;
+    background: var(--surface);
+    box-shadow: 6px 6px 0 var(--ink);
     opacity: 0;
-    transform: translateY(16px) scale(0.98);
+    transform: translateY(calc(100% + 2rem)) rotate(2deg);
     pointer-events: none;
     transition:
-      opacity 360ms var(--ease-out),
-      transform 460ms var(--ease-out);
-  }
-
-  @supports (backdrop-filter: blur(1px)) {
-    .discord {
-      background: rgb(17 19 23 / 0.82);
-      backdrop-filter: blur(18px) saturate(150%);
-    }
+      opacity 300ms var(--ease-out),
+      transform 700ms cubic-bezier(0.34, 1.4, 0.64, 1);
   }
 
   .discord.is-visible {
@@ -166,12 +157,14 @@ import { site } from '@/config/site';
     color: var(--text-muted);
     transition:
       background-color var(--duration) var(--ease-out),
-      color var(--duration) var(--ease-out);
+      color var(--duration) var(--ease-out),
+      transform 300ms var(--ease-out);
   }
 
   .discord__close:hover {
-    background: var(--surface-strong);
-    color: var(--text);
+    background: var(--bg-alt);
+    color: var(--ink);
+    transform: rotate(90deg);
   }
 
   .discord__head {
@@ -187,7 +180,7 @@ import { site } from '@/config/site';
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
-    border-radius: 12px;
+    border-radius: 50%;
     background: #5865f2;
     color: #fff;
   }

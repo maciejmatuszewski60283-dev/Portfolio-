@@ -1,8 +1,8 @@
 export const about = {
   paragraphs: [
-    'Jestem web developerem i projektantem interfejsów z Poznania. Tworzę strony i aplikacje internetowe, w których kod, wygląd i wygoda użytkownika są traktowane jako jedna całość — a nie osobne etapy, które ktoś kiedyś połączy.',
+    'Jestem web developerem i projektantem interfejsów z Poznania. Tworzę strony i aplikacje internetowe, w których kod, wygląd i wygoda użytkownika są traktowane jako jedna całość, a nie osobne etapy, które ktoś kiedyś połączy.',
     'Interesuje mnie to, co dzieje się na styku projektowania i programowania: jak typografia, układ i drobne interakcje wpływają na to, czy ktoś zostanie na stronie, zrozumie ofertę i wykona kolejny krok.',
-    'Każdy projekt zaczynam od zrozumienia, komu i do czego ma służyć. Dopiero potem wybieram rozwiązania techniczne — takie, które będą szybkie, bezpieczne i łatwe w dalszym rozwoju.',
+    'Każdy projekt zaczynam od zrozumienia, komu i do czego ma służyć. Dopiero potem wybieram rozwiązania techniczne. Takie, które będą szybkie, bezpieczne i łatwe w dalszym rozwoju.',
   ],
   principles: [
     {
