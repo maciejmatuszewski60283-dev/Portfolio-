@@ -1,0 +1,112 @@
+---
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+import { about } from '@/data/about';
+---
+
+<section class="section" id="o-mnie" aria-labelledby="o-mnie-title">
+  <div class="container about">
+    <div class="about__intro">
+      <SectionHeading
+        id="o-mnie-title"
+        eyebrow="O mnie"
+        title="Projektuję i programuję z myślą o ludziach."
+      />
+      <div class="about__text" data-reveal>
+        {about.paragraphs.map((paragraph) => (
+          <p>{paragraph}</p>
+        ))}
+      </div>
+    </div>
+
+    <ul role="list" class="about__principles">
+      {about.principles.map((principle, index) => (
+        <li class="principle" data-reveal data-reveal-delay={index}>
+          <span class="principle__icon">
+            <Icon name={principle.icon} size={22} />
+          </span>
+          <div>
+            <h3 class="principle__title">{principle.title}</h3>
+            <p class="principle__text">{principle.text}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    gap: 3.5rem;
+  }
+
+  .about__text {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 40rem;
+    color: var(--text-muted);
+    font-size: 1.0625rem;
+  }
+
+  .about__text p:first-child {
+    color: var(--text);
+    font-size: 1.1875rem;
+  }
+
+  .about__principles {
+    display: grid;
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--border);
+  }
+
+  .principle {
+    display: flex;
+    gap: 1.1rem;
+    padding: 1.6rem;
+    background: var(--bg);
+    transition: background-color 300ms var(--ease-out);
+  }
+
+  .principle:hover {
+    background: var(--bg-raised);
+  }
+
+  .principle__icon {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid rgb(201 242 122 / 0.22);
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .principle__title {
+    font-size: 1.125rem;
+    letter-spacing: -0.015em;
+  }
+
+  .principle__text {
+    margin-top: 0.4rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  @media (min-width: 64rem) {
+    .about {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .about__principles {
+      margin-top: 4.5rem;
+    }
+  }
+</style>

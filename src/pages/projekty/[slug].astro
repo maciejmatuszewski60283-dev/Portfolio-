@@ -1,0 +1,287 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+import { site } from '@/config/site';
+import { getPublishedProjects, type Project } from '@/lib/projects';
+import { projectStatuses } from '@/lib/project-status';
+import { breadcrumbs } from '@/lib/structured-data';
+
+export const getStaticPaths = (async () => {
+  const projects = await getPublishedProjects();
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+const path = `/projekty/${project.id}/`;
+
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: data.title,
+    description: data.description,
+    url: new URL(path, site.url).href,
+    dateCreated: data.date.toISOString().slice(0, 10),
+    genre: data.category,
+    inLanguage: 'pl-PL',
+    creator: { '@id': `${site.url}/#person` },
+    ...(data.technologies.length ? { keywords: data.technologies.join(', ') } : {}),
+  },
+  breadcrumbs([
+    { name: 'Strona główna', path: '/' },
+    { name: 'Projekty', path: '/#projekty' },
+    { name: data.title, path },
+  ]),
+];
+---
+
+<BaseLayout
+  title={`${data.title} — projekt | ${site.name}`}
+  description={data.description}
+  image={data.cover.src}
+  imageAlt={data.coverAlt}
+  type="article"
+  structuredData={structuredData}
+>
+  <article class="project">
+    <div class="container">
+      <nav class="project__breadcrumbs" aria-label="Okruszki">
+        <ol role="list">
+          <li>
+            <a href="/">Strona główna</a>
+          </li>
+          <li>
+            <a href="/#projekty">Projekty</a>
+          </li>
+          <li aria-current="page">{data.title}</li>
+        </ol>
+      </nav>
+
+      <header class="project__header">
+        <p class="eyebrow">{data.category}</p>
+        <h1 class="project__title">{data.title}</h1>
+        <p class="lead">{data.description}</p>
+
+        <dl class="project__facts">
+          <div>
+            <dt>Status</dt>
+            <dd>{projectStatuses[data.status]}</dd>
+          </div>
+          <div>
+            <dt>Data</dt>
+            <dd>
+              <time datetime={data.date.toISOString().slice(0, 10)}>
+                {new Intl.DateTimeFormat('pl-PL', { month: 'long', year: 'numeric' }).format(
+                  data.date,
+                )}
+              </time>
+            </dd>
+          </div>
+          {data.technologies.length > 0 && (
+            <div>
+              <dt>Technologie</dt>
+              <dd>{data.technologies.join(', ')}</dd>
+            </div>
+          )}
+        </dl>
+
+        {(data.liveUrl || data.repoUrl) && (
+          <div class="project__links">
+            {data.liveUrl && (
+              <a
+                class="btn btn--primary"
+                href={data.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Zobacz online
+                <Icon name="arrow-up-right" />
+                <span class="visually-hidden">(otwiera się w nowej karcie)</span>
+              </a>
+            )}
+            {data.repoUrl && (
+              <a class="btn" href={data.repoUrl} target="_blank" rel="noopener noreferrer">
+                Kod źródłowy
+                <Icon name="arrow-up-right" />
+                <span class="visually-hidden">(otwiera się w nowej karcie)</span>
+              </a>
+            )}
+          </div>
+        )}
+      </header>
+
+      <figure class="project__cover">
+        <Image
+          src={data.cover}
+          alt={data.coverAlt}
+          widths={[640, 960, 1280, 1600]}
+          sizes="(min-width: 75rem) 1180px, 100vw"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </figure>
+
+      <div class="project__content">
+        <Content />
+      </div>
+
+      {data.gallery.length > 0 && (
+        <ul role="list" class="project__gallery" aria-label="Galeria projektu">
+          {data.gallery.map((item) => (
+            <li>
+              <Image
+                src={item.src}
+                alt={item.alt}
+                widths={[480, 800, 1200]}
+                sizes="(min-width: 48rem) 50vw, 100vw"
+                loading="lazy"
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <aside class="project__cta">
+        <h2>Masz podobny projekt?</h2>
+        <a class="btn btn--primary" href="/#kontakt">
+          Porozmawiajmy
+          <Icon name="arrow-right" />
+        </a>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .project {
+    padding-block: calc(var(--header-height) + 2.5rem) var(--section-space);
+  }
+
+  .project__breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: var(--text-subtle);
+    font-size: 0.875rem;
+  }
+
+  .project__breadcrumbs li:not(:last-child)::after {
+    content: '/';
+    margin-left: 0.5rem;
+  }
+
+  .project__breadcrumbs a {
+    text-decoration: none;
+  }
+
+  .project__breadcrumbs a:hover {
+    color: var(--text);
+  }
+
+  .project__header {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 48rem;
+    margin-top: 3rem;
+  }
+
+  .project__title {
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+  }
+
+  .project__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem 2.5rem;
+    margin: 1rem 0 0;
+  }
+
+  .project__facts dt {
+    color: var(--text-subtle);
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .project__facts dd {
+    margin: 0.25rem 0 0;
+  }
+
+  .project__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .project__cover {
+    margin: 3.5rem 0 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+
+  .project__cover :global(img) {
+    width: 100%;
+  }
+
+  .project__content {
+    max-width: 46rem;
+    margin-top: 3.5rem;
+    color: var(--text-muted);
+  }
+
+  .project__content :global(h2) {
+    margin: 2.5rem 0 1rem;
+    color: var(--text);
+    font-size: 1.75rem;
+  }
+
+  .project__content :global(p),
+  .project__content :global(ul) {
+    margin: 0 0 1rem;
+  }
+
+  .project__gallery {
+    display: grid;
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .project__gallery :global(img) {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .project__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-top: 4rem;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--accent-soft);
+  }
+
+  .project__cta h2 {
+    font-size: 1.5rem;
+  }
+
+  @media (min-width: 48rem) {
+    .project__gallery {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

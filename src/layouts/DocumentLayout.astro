@@ -1,0 +1,98 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+
+interface Props {
+  title: string;
+  heading: string;
+  description: string;
+  noindex?: boolean;
+  structuredData?: object[];
+}
+
+const { title, heading, description, noindex, structuredData } = Astro.props;
+---
+
+<BaseLayout {title} {description} {noindex} {structuredData}>
+  <article class="document">
+    <div class="container document__inner">
+      <a class="document__back" href="/">
+        <Icon name="arrow-left" size={18} />
+        Strona główna
+      </a>
+      <h1 class="document__title">{heading}</h1>
+      <div class="document__body">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .document {
+    padding-block: calc(var(--header-height) + 3.5rem) var(--section-space);
+  }
+
+  .document__inner {
+    max-width: 48rem;
+  }
+
+  .document__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    text-decoration: none;
+  }
+
+  .document__back:hover {
+    color: var(--text);
+  }
+
+  .document__title {
+    margin-top: 2rem;
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+  }
+
+  .document__body {
+    margin-top: 2.5rem;
+    color: var(--text-muted);
+  }
+
+  .document__body :global(h2) {
+    margin: 3rem 0 1rem;
+    color: var(--text);
+    font-size: 1.5rem;
+    scroll-margin-top: calc(var(--header-height) + 1.5rem);
+  }
+
+  .document__body :global(h3) {
+    margin: 1.75rem 0 0.75rem;
+    color: var(--text);
+    font-size: 1.125rem;
+  }
+
+  .document__body :global(p),
+  .document__body :global(ul),
+  .document__body :global(ol) {
+    margin: 0 0 1rem;
+  }
+
+  .document__body :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .document__body :global(li::marker) {
+    color: var(--accent);
+  }
+
+  .document__body :global(strong) {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .document__body :global(a) {
+    color: var(--text);
+  }
+</style>

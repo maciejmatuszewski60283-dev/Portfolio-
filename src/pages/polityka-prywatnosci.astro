@@ -1,0 +1,203 @@
+---
+import DocumentLayout from '@/layouts/DocumentLayout.astro';
+import Fill from '@/components/Fill.astro';
+import { legal } from '@/config/legal';
+import { site } from '@/config/site';
+
+const incomplete = [
+  legal.controllerDetails,
+  legal.privacyEmail,
+  legal.effectiveDate,
+  legal.retentionPeriod,
+  legal.mailboxProvider,
+  legal.transferBasis,
+].some((value) => value === '');
+
+const effectiveDate = legal.effectiveDate
+  ? new Intl.DateTimeFormat('pl-PL', { dateStyle: 'long' }).format(new Date(legal.effectiveDate))
+  : '';
+---
+
+<DocumentLayout
+  title={`Polityka prywatności — ${site.name}`}
+  heading="Polityka prywatności"
+  description={`Informacje o przetwarzaniu danych osobowych i plikach cookies na stronie ${site.name}.`}
+  noindex
+>
+  {incomplete && (
+    <p class="draft-notice" role="note">
+      Projekt dokumentu. Przed publikacją uzupełnij oznaczone pola i zweryfikuj treść z osobą
+      posiadającą wiedzę prawniczą.
+    </p>
+  )}
+
+  <p>
+    Dokument obowiązuje od: <Fill value={effectiveDate} label="data" />.
+  </p>
+  <p>
+    Poniżej znajdziesz informacje o tym, jakie dane osobowe są przetwarzane w związku z korzystaniem
+    ze strony {new URL(site.url).hostname}, w jakim celu i na jakiej podstawie, a także jakie prawa
+    Ci przysługują. Informacje te wynikają z art. 13 rozporządzenia Parlamentu Europejskiego i Rady
+    (UE) 2016/679 (RODO).
+  </p>
+
+  <h2 id="administrator">1. Administrator danych</h2>
+  <p>
+    Administratorem Twoich danych osobowych jest <strong>{legal.controllerName}</strong>,
+    <Fill value={legal.controllerDetails} label="adres lub dane działalności (nazwa, adres, NIP)" />
+    .
+  </p>
+  <p>
+    W sprawach dotyczących danych osobowych możesz kontaktować się pod adresem e-mail:
+    {legal.privacyEmail ? (
+      <a href={`mailto:${legal.privacyEmail}`}>{legal.privacyEmail}</a>
+    ) : (
+      <Fill value="" label="adres e-mail do spraw danych osobowych" />
+    )}
+    .
+  </p>
+
+  <h2 id="formularz">2. Formularz kontaktowy</h2>
+  <p>
+    Korzystając z formularza kontaktowego, przekazujesz: imię lub nazwę, adres e-mail, opcjonalnie
+    nazwę firmy, temat oraz treść wiadomości. Podanie danych jest dobrowolne, ale bez nich nie mogę
+    odpowiedzieć na zapytanie.
+  </p>
+  <h3>Cele i podstawy prawne przetwarzania</h3>
+  <ul>
+    <li>
+      udzielenie odpowiedzi i prowadzenie korespondencji — prawnie uzasadniony interes
+      administratora polegający na komunikacji z osobami, które się z nim kontaktują (art. 6 ust. 1
+      lit. f RODO);
+    </li>
+    <li>
+      podjęcie działań na Twoje żądanie przed zawarciem umowy, np. przygotowanie wyceny (art. 6 ust.
+      1 lit. b RODO);
+    </li>
+    <li>
+      ewentualne ustalenie, dochodzenie lub obrona roszczeń — prawnie uzasadniony interes
+      administratora (art. 6 ust. 1 lit. f RODO).
+    </li>
+  </ul>
+  <p>
+    Zaznaczenie pola przy formularzu potwierdza zapoznanie się z tymi informacjami. Nie jest zgodą
+    na przetwarzanie danych w celach marketingowych — dane z formularza nie są wykorzystywane do
+    wysyłki newslettera ani reklam.
+  </p>
+  <h3>Okres przechowywania</h3>
+  <p>
+    Korespondencja jest przechowywana przez okres niezbędny do jej prowadzenia, a jeśli nie dojdzie
+    do współpracy — przez <Fill value={legal.retentionPeriod} label="okres, np. 12 miesięcy" /> od
+    ostatniej wiadomości. Jeżeli zostanie zawarta umowa, dane będą przechowywane przez okres jej
+    realizacji oraz przedawnienia roszczeń i wymagany przepisami prawa.
+  </p>
+
+  <h2 id="bezpieczenstwo">3. Dane techniczne i bezpieczeństwo</h2>
+  <p>
+    Podczas korzystania ze strony serwery dostawcy hostingu automatycznie przetwarzają dane
+    techniczne, takie jak adres IP, typ przeglądarki oraz data i godzina żądania. Są one
+    wykorzystywane do dostarczenia strony, ochrony przed nadużyciami (np. ograniczanie liczby
+    wysyłanych wiadomości, filtrowanie ruchu automatycznego) oraz diagnozowania błędów. Podstawą
+    jest prawnie uzasadniony interes administratora polegający na zapewnieniu bezpieczeństwa i
+    ciągłości działania strony (art. 6 ust. 1 lit. f RODO). Dane te są przechowywane przez okres
+    określony przez dostawcę hostingu.
+  </p>
+
+  <h2 id="odbiorcy">4. Odbiorcy danych</h2>
+  <p>Dane mogą być przekazywane podmiotom, które pomagają w prowadzeniu strony:</p>
+  <ul>
+    <li>
+      <strong>{legal.hostingProvider}</strong> — hosting strony, sieć CDN i ochrona przed atakami;
+    </li>
+    <li>
+      <strong>{legal.emailProvider}</strong> — techniczne dostarczenie wiadomości z formularza na
+      skrzynkę administratora;
+    </li>
+    <li>
+      dostawca poczty elektronicznej administratora —
+      <Fill value={legal.mailboxProvider} label="nazwa dostawcy skrzynki e-mail" />.
+    </li>
+  </ul>
+  <p>
+    Dane mogą zostać udostępnione także organom publicznym, jeżeli obowiązek taki wynika z przepisów
+    prawa.
+  </p>
+
+  <h2 id="transfer">5. Przekazywanie danych poza Europejski Obszar Gospodarczy</h2>
+  <p>
+    Dostawcy wymienieni powyżej mogą przetwarzać dane również poza EOG, w szczególności w Stanach
+    Zjednoczonych. W takim przypadku przekazanie odbywa się na podstawie decyzji Komisji
+    Europejskiej stwierdzającej odpowiedni stopień ochrony (EU-U.S. Data Privacy Framework) — o ile
+    dany dostawca jest nim objęty — lub standardowych klauzul umownych zatwierdzonych przez Komisję
+    Europejską.
+    <Fill
+      value={legal.transferBasis}
+      label="potwierdzenie mechanizmu transferu dla każdego dostawcy"
+    />
+  </p>
+
+  <h2 id="prawa">6. Twoje prawa</h2>
+  <p>W związku z przetwarzaniem danych masz prawo do:</p>
+  <ul>
+    <li>dostępu do swoich danych i otrzymania ich kopii;</li>
+    <li>sprostowania danych, które są nieprawidłowe;</li>
+    <li>usunięcia danych;</li>
+    <li>ograniczenia przetwarzania;</li>
+    <li>przenoszenia danych — w zakresie, w jakim są przetwarzane w związku z umową;</li>
+    <li>
+      wniesienia sprzeciwu wobec przetwarzania opartego na prawnie uzasadnionym interesie
+      administratora;
+    </li>
+    <li>
+      wniesienia skargi do organu nadzorczego — Prezesa Urzędu Ochrony Danych Osobowych (ul. Stawki
+      2, 00-193 Warszawa).
+    </li>
+  </ul>
+  <p>Dane nie są wykorzystywane do zautomatyzowanego podejmowania decyzji ani profilowania.</p>
+
+  <h2 id="cookies">7. Pliki cookies i pamięć przeglądarki</h2>
+  <p>
+    Strona nie korzysta z plików cookies analitycznych ani marketingowych i nie wyświetla reklam.
+  </p>
+  <ul>
+    <li>
+      Po zamknięciu okienka zachęcającego do kontaktu przez Discord w pamięci przeglądarki
+      (localStorage) zapisywana jest data jego zamknięcia, aby nie wyświetlać go ponownie przez 7
+      dni. Informacja ta nie zawiera danych osobowych, nie jest przesyłana na serwer i możesz ją
+      usunąć, czyszcząc dane witryny w przeglądarce.
+    </li>
+    <li>
+      Dostawca hostingu ({legal.hostingProvider}) może zapisywać techniczne pliki cookies niezbędne
+      do ochrony strony przed ruchem automatycznym (np. <code>__cf_bm</code>).
+    </li>
+  </ul>
+  <p>Dane wpisane w formularzu kontaktowym nie są zapisywane w pamięci przeglądarki.</p>
+
+  <h2 id="linki">8. Serwisy zewnętrzne</h2>
+  <p>
+    Strona zawiera odnośniki do serwisów zewnętrznych (np. Discord). Po przejściu do nich obowiązują
+    zasady prywatności ich operatorów. Sama obecność odnośnika nie powoduje przekazania danych do
+    tych serwisów.
+  </p>
+
+  <h2 id="zmiany">9. Zmiany polityki prywatności</h2>
+  <p>
+    Polityka może być aktualizowana, np. w razie zmiany funkcji strony lub wykorzystywanych usług.
+    Aktualna wersja jest zawsze dostępna na tej stronie.
+  </p>
+</DocumentLayout>
+
+<style>
+  .draft-notice {
+    padding: 1rem 1.1rem;
+    border: 1px solid rgb(255 197 138 / 0.35);
+    border-radius: 12px;
+    background: rgb(255 197 138 / 0.08);
+    color: #ffc58a;
+    font-size: 0.9375rem;
+  }
+
+  code {
+    font-size: 0.875em;
+  }
+</style>

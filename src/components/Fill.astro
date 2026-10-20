@@ -1,0 +1,20 @@
+---
+interface Props {
+  value: string;
+  label: string;
+}
+
+const { value, label } = Astro.props;
+---
+
+{value ? <Fragment set:text={value} /> : <mark class="fill">[do uzupełnienia: {label}]</mark>}
+
+<style>
+  .fill {
+    padding: 0.05em 0.35em;
+    border-radius: 4px;
+    background: rgb(255 197 138 / 0.16);
+    color: #ffc58a;
+    font-weight: 500;
+  }
+</style>

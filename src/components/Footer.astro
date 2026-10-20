@@ -1,0 +1,146 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { activeSocials, navigation, site } from '@/config/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <Logo />
+        <p class="footer__tagline">
+          {site.rolePl}. Projektowanie i tworzenie stron internetowych, aplikacji webowych i
+          interfejsów — {site.city}.
+        </p>
+      </div>
+
+      <nav class="footer__nav" aria-label="Nawigacja w stopce">
+        <p class="footer__heading">Nawigacja</p>
+        <ul role="list">
+          {navigation.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="footer__nav">
+        <p class="footer__heading">Informacje</p>
+        <ul role="list">
+          <li>
+            <a href="/#faq">FAQ</a>
+          </li>
+          <li>
+            <a href="/polityka-prywatnosci/">Polityka prywatności</a>
+          </li>
+          {activeSocials.map((social) => (
+            <li>
+              <a href={social.url} target="_blank" rel="noopener noreferrer me">
+                {social.label}
+                <span class="visually-hidden">(otwiera się w nowej karcie)</span>
+              </a>
+            </li>
+          ))}
+          {site.discordUrl && (
+            <li>
+              <a href={site.discordUrl} target="_blank" rel="noopener noreferrer">
+                Discord
+                <span class="visually-hidden">(otwiera się w nowej karcie)</span>
+              </a>
+            </li>
+          )}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>
+        © {year} {site.name}. Wszelkie prawa zastrzeżone.
+      </p>
+      <a class="footer__top-link" href="#tresc">
+        Do góry
+        <Icon name="arrow-up" size={16} />
+      </a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: 4rem calc(2rem + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+    background: linear-gradient(180deg, transparent, rgb(255 255 255 / 0.015));
+  }
+
+  .footer__top {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .footer__tagline {
+    max-width: 22rem;
+    margin-top: 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+  }
+
+  .footer__heading {
+    margin-bottom: 1rem;
+    color: var(--text-subtle);
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .footer__nav ul {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .footer__nav a,
+  .footer__top-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding-block: 0.3rem;
+    color: var(--text-muted);
+    font-size: 0.9375rem;
+    text-decoration: none;
+  }
+
+  .footer__nav a:hover,
+  .footer__top-link:hover {
+    color: var(--text);
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 3.5rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-subtle);
+    font-size: 0.875rem;
+  }
+
+  .footer__top-link :global(svg) {
+    transition: transform var(--duration) var(--ease-out);
+  }
+
+  .footer__top-link:hover :global(svg) {
+    transform: translateY(-2px);
+  }
+
+  @media (min-width: 48rem) {
+    .footer__top {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+  }
+</style>

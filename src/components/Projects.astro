@@ -1,0 +1,225 @@
+---
+import Icon from './Icon.astro';
+import ProjectCard from './ProjectCard.astro';
+import SectionHeading from './SectionHeading.astro';
+import { getPublishedProjects } from '@/lib/projects';
+
+const projects = await getPublishedProjects();
+---
+
+<section class="section" id="projekty" aria-labelledby="projekty-title">
+  <div class="container">
+    <SectionHeading id="projekty-title" eyebrow="Portfolio" title="Wybrane projekty">
+      <p>
+        Każda realizacja w tym miejscu to prawdziwy projekt — z opisem wyzwania, przyjętego
+        rozwiązania i efektu.
+      </p>
+    </SectionHeading>
+
+    {projects.length > 0 ? (
+      <ul role="list" class="projects">
+        {projects.map((project, index) => (
+          <li data-reveal data-reveal-delay={index % 2}>
+            <ProjectCard project={project} />
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div class="showcase glass" data-reveal>
+        <div class="showcase__visual" aria-hidden="true">
+          <div class="frame">
+            <div class="frame__bar">
+              <span />
+              <span />
+              <span />
+            </div>
+            <div class="frame__canvas">
+              <div class="frame__block frame__block--hero" />
+              <div class="frame__row">
+                <div class="frame__block" />
+                <div class="frame__block" />
+                <div class="frame__block" />
+              </div>
+              <div class="frame__outline">
+                <Icon name="arrow-up-right" size={22} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="showcase__content">
+          <span class="showcase__icon">
+            <Icon name="folder" size={22} />
+          </span>
+          <h3 class="showcase__title">Miejsce na Twój projekt</h3>
+          <p class="showcase__text">
+            Rozwijam portfolio wyłącznie o realizacje, za którymi stoją prawdziwe potrzeby — bez
+            szablonowych makiet tworzonych na pokaz. Jeśli planujesz stronę internetową, aplikację
+            lub nowy interfejs, porozmawiajmy o tym, jak mógłby wyglądać.
+          </p>
+          <div class="showcase__actions">
+            <a class="btn btn--primary" href="#kontakt">
+              Opowiedz o swoim pomyśle
+              <Icon name="arrow-right" />
+            </a>
+            <a class="btn" href="#proces">
+              Zobacz, jak pracuję
+            </a>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .projects {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 48rem) {
+    .projects {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .showcase {
+    display: grid;
+    overflow: hidden;
+  }
+
+  .showcase__visual {
+    position: relative;
+    padding: 1.5rem 1.5rem 0;
+    background:
+      radial-gradient(90% 90% at 80% 0%, var(--glow-blue), transparent 60%),
+      radial-gradient(70% 70% at 0% 100%, var(--glow-lime), transparent 60%);
+  }
+
+  .frame {
+    max-width: 30rem;
+    margin-inline: auto;
+    border: 1px solid var(--border-strong);
+    border-bottom: 0;
+    border-radius: 14px 14px 0 0;
+    background: rgb(10 11 13 / 0.7);
+  }
+
+  .frame__bar {
+    display: flex;
+    gap: 0.35rem;
+    padding: 0.75rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .frame__bar span {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.14);
+  }
+
+  .frame__canvas {
+    position: relative;
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.1rem;
+  }
+
+  .frame__block {
+    height: 3.5rem;
+    border: 1px dashed rgb(255 255 255 / 0.14);
+    border-radius: 8px;
+  }
+
+  .frame__block--hero {
+    height: 6.5rem;
+    border-color: rgb(201 242 122 / 0.3);
+    background: linear-gradient(135deg, var(--accent-soft), transparent);
+  }
+
+  .frame__row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .frame__outline {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--accent-ink);
+    box-shadow: 0 0 0 8px var(--accent-soft);
+    transition: transform 400ms var(--ease-out);
+  }
+
+  .showcase:hover .frame__outline {
+    transform: translate(3px, -3px) rotate(8deg);
+  }
+
+  .showcase__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: clamp(1.75rem, 5vw, 3rem);
+  }
+
+  .showcase__icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    color: var(--accent);
+  }
+
+  .showcase__title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .showcase__text {
+    max-width: 34rem;
+    color: var(--text-muted);
+  }
+
+  .showcase__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+  }
+
+  @media (min-width: 56rem) {
+    .showcase {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: stretch;
+    }
+
+    .showcase__visual {
+      display: flex;
+      align-items: flex-end;
+      padding: 3rem 0 0 3rem;
+      order: 2;
+    }
+
+    .frame {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      border-right: 0;
+      border-radius: 14px 0 0 0;
+    }
+
+    .showcase__content {
+      justify-content: center;
+    }
+  }
+</style>

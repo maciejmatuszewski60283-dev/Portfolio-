@@ -1,0 +1,588 @@
+---
+import Icon from './Icon.astro';
+import { legal } from '@/config/legal';
+import { contactLimits } from '@/lib/contact-rules';
+---
+
+<form class="form glass" action="/api/contact" method="post" novalidate data-contact-form>
+  <div class="form__grid">
+    <div class="field">
+      <label class="field__label" for="contact-name">
+        Imię lub nazwa <span aria-hidden="true">*</span>
+      </label>
+      <input
+        class="field__input"
+        id="contact-name"
+        name="name"
+        type="text"
+        autocomplete="name"
+        required
+        minlength={contactLimits.name.min}
+        maxlength={contactLimits.name.max}
+        aria-describedby="contact-name-error"
+      />
+      <p class="field__error" id="contact-name-error" data-error-for="name"></p>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="contact-email">
+        Adres e-mail <span aria-hidden="true">*</span>
+      </label>
+      <input
+        class="field__input"
+        id="contact-email"
+        name="email"
+        type="email"
+        inputmode="email"
+        autocomplete="email"
+        autocapitalize="off"
+        spellcheck="false"
+        required
+        maxlength={contactLimits.email.max}
+        aria-describedby="contact-email-error"
+      />
+      <p class="field__error" id="contact-email-error" data-error-for="email"></p>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="contact-company">
+        Firma <span class="field__optional">(opcjonalnie)</span>
+      </label>
+      <input
+        class="field__input"
+        id="contact-company"
+        name="company"
+        type="text"
+        autocomplete="organization"
+        maxlength={contactLimits.company.max}
+        aria-describedby="contact-company-error"
+      />
+      <p class="field__error" id="contact-company-error" data-error-for="company"></p>
+    </div>
+
+    <div class="field">
+      <label class="field__label" for="contact-subject">
+        Temat <span aria-hidden="true">*</span>
+      </label>
+      <input
+        class="field__input"
+        id="contact-subject"
+        name="subject"
+        type="text"
+        required
+        minlength={contactLimits.subject.min}
+        maxlength={contactLimits.subject.max}
+        aria-describedby="contact-subject-error"
+      />
+      <p class="field__error" id="contact-subject-error" data-error-for="subject"></p>
+    </div>
+
+    <div class="field field--full">
+      <label class="field__label" for="contact-message">
+        Opis projektu lub zapytania <span aria-hidden="true">*</span>
+      </label>
+      <textarea
+        class="field__input field__input--area"
+        id="contact-message"
+        name="message"
+        rows="6"
+        required
+        minlength={contactLimits.message.min}
+        maxlength={contactLimits.message.max}
+        aria-describedby="contact-message-hint contact-message-error"
+      ></textarea>
+      <div class="field__footer">
+        <p class="field__error" id="contact-message-error" data-error-for="message"></p>
+        <p class="field__hint" id="contact-message-hint">
+          <span data-counter>0</span>/{contactLimits.message.max}
+        </p>
+      </div>
+    </div>
+
+    <div class="field field--trap" aria-hidden="true">
+      <label for="contact-website">Strona internetowa</label>
+      <input id="contact-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="field field--full">
+      <div class="checkbox">
+        <input
+          class="checkbox__input"
+          id="contact-privacy"
+          name="privacy"
+          type="checkbox"
+          required
+          aria-describedby="contact-privacy-error"
+        />
+        <label class="checkbox__label" for="contact-privacy">
+          Zapoznałem(-am) się z{' '}
+          <a href="/polityka-prywatnosci/#formularz">informacją o przetwarzaniu danych osobowych</a>{' '}
+          przesyłanych w formularzu. <span aria-hidden="true">*</span>
+        </label>
+      </div>
+      <p class="field__error" id="contact-privacy-error" data-error-for="privacy"></p>
+    </div>
+  </div>
+
+  <p class="form__notice">
+    Administratorem danych jest {legal.controllerName}. Dane z formularza wykorzystuję wyłącznie,
+    aby odpowiedzieć na wiadomość i przygotować ewentualną współpracę. Szczegóły, w tym Twoje prawa,
+    znajdziesz w <a href="/polityka-prywatnosci/">polityce prywatności</a>.
+  </p>
+
+  <div class="form__footer">
+    <button class="btn btn--primary form__submit" type="submit" data-submit>
+      <span class="form__submit-label" data-submit-label>
+        Wyślij wiadomość
+      </span>
+      <span class="form__spinner" aria-hidden="true"></span>
+      <Icon name="arrow-right" />
+    </button>
+    <p class="form__required">
+      <span aria-hidden="true">*</span> pola wymagane
+    </p>
+  </div>
+
+  <div class="form__status" role="status" aria-live="polite" data-status>
+    <Icon name="check" class="form__status-icon form__status-icon--success" size={20} />
+    <Icon name="alert" class="form__status-icon form__status-icon--error" size={20} />
+    <p data-status-text></p>
+  </div>
+
+  <noscript>
+    <p class="form__noscript">
+      Wysłanie formularza wymaga włączonej obsługi JavaScriptu w przeglądarce.
+    </p>
+  </noscript>
+</form>
+
+<script>
+  import {
+    contactLimits,
+    validateContact,
+    type ContactField,
+    type ContactPayload,
+  } from '@/lib/contact-rules';
+
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+
+  if (form) {
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const statusText = form.querySelector<HTMLElement>('[data-status-text]')!;
+    const counter = form.querySelector<HTMLElement>('[data-counter]')!;
+    const message = form.elements.namedItem('message') as HTMLTextAreaElement;
+    const fields: ContactField[] = ['name', 'email', 'company', 'subject', 'message', 'privacy'];
+    const touched = new Set<ContactField>();
+    let startedAt = Date.now();
+    let sending = false;
+
+    const readPayload = (): ContactPayload => {
+      const data = new FormData(form);
+      const text = (key: string) => String(data.get(key) ?? '').trim();
+      return {
+        name: text('name').replace(/\s+/g, ' '),
+        email: text('email'),
+        company: text('company').replace(/\s+/g, ' '),
+        subject: text('subject').replace(/\s+/g, ' '),
+        message: text('message'),
+        privacy: data.get('privacy') === 'on',
+      };
+    };
+
+    const control = (field: ContactField) => form.elements.namedItem(field) as HTMLInputElement;
+
+    const showError = (field: ContactField, error?: string) => {
+      const target = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
+      const input = control(field);
+      if (!target || !input) return;
+      target.textContent = error ?? '';
+      target.classList.toggle('is-visible', Boolean(error));
+      if (error) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+    };
+
+    const validate = (only?: Set<ContactField>) => {
+      const errors = validateContact(readPayload());
+      for (const field of fields) {
+        if (!only || only.has(field)) showError(field, errors[field]);
+      }
+      return errors;
+    };
+
+    const setStatus = (state: 'success' | 'error' | 'idle', text = '') => {
+      status.dataset.state = state;
+      statusText.textContent = text;
+    };
+
+    const setSending = (value: boolean) => {
+      sending = value;
+      form.classList.toggle('is-sending', value);
+      submit.disabled = value;
+      submit.setAttribute('aria-busy', String(value));
+      submitLabel.textContent = value ? 'Wysyłanie…' : 'Wyślij wiadomość';
+    };
+
+    const updateCounter = () => {
+      const length = [...message.value].length;
+      counter.textContent = String(length);
+      counter.parentElement?.classList.toggle(
+        'is-near-limit',
+        length > contactLimits.message.max * 0.9,
+      );
+    };
+
+    message.addEventListener('input', updateCounter);
+
+    form.addEventListener('focusout', (event) => {
+      const target = event.target as HTMLInputElement;
+      const field = target.name as ContactField;
+      if (!fields.includes(field) || (target.value === '' && field !== 'privacy')) return;
+      touched.add(field);
+      validate(touched);
+    });
+
+    form.addEventListener('input', (event) => {
+      const field = (event.target as HTMLInputElement).name as ContactField;
+      if (touched.has(field)) validate(new Set([field]));
+      if (status.dataset.state === 'error') setStatus('idle');
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (sending) return;
+
+      fields.forEach((field) => touched.add(field));
+      const errors = validate();
+      const firstInvalid = fields.find((field) => errors[field]);
+      if (firstInvalid) {
+        setStatus('error', 'Uzupełnij poprawnie zaznaczone pola.');
+        control(firstInvalid).focus();
+        return;
+      }
+
+      setSending(true);
+      setStatus('idle');
+
+      const website = (form.elements.namedItem('website') as HTMLInputElement).value;
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({ ...readPayload(), website, startedAt }),
+        });
+        const result = (await response.json().catch(() => null)) as {
+          ok?: boolean;
+          message?: string;
+          error?: string;
+          fields?: Partial<Record<ContactField, string>>;
+        } | null;
+
+        if (response.ok && result?.ok) {
+          form.reset();
+          updateCounter();
+          touched.clear();
+          fields.forEach((field) => showError(field));
+          startedAt = Date.now();
+          setStatus('success', result.message ?? 'Dziękuję! Wiadomość została wysłana.');
+          return;
+        }
+
+        if (result?.fields) {
+          for (const [field, error] of Object.entries(result.fields)) {
+            showError(field as ContactField, error);
+          }
+        }
+        setStatus(
+          'error',
+          result?.error ?? 'Nie udało się wysłać wiadomości. Spróbuj ponownie za chwilę.',
+        );
+      } catch {
+        setStatus('error', 'Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.');
+      } finally {
+        setSending(false);
+      }
+    });
+  }
+</script>
+
+<style>
+  .form {
+    position: relative;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .form__grid {
+    display: grid;
+    gap: 1.1rem 1.25rem;
+  }
+
+  .field {
+    display: grid;
+    gap: 0.45rem;
+    min-width: 0;
+  }
+
+  .field__label {
+    font-size: 0.9063rem;
+    font-weight: 500;
+  }
+
+  .field__label span[aria-hidden],
+  .checkbox__label span[aria-hidden],
+  .form__required span {
+    color: var(--accent);
+  }
+
+  .field__optional {
+    color: var(--text-subtle);
+    font-weight: 400;
+  }
+
+  .field__input {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    background: rgb(0 0 0 / 0.22);
+    font-size: 1rem;
+    transition:
+      border-color var(--duration) var(--ease-out),
+      box-shadow var(--duration) var(--ease-out),
+      background-color var(--duration) var(--ease-out);
+  }
+
+  .field__input:hover {
+    border-color: rgb(255 255 255 / 0.24);
+  }
+
+  .field__input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: rgb(0 0 0 / 0.32);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  .field__input[aria-invalid='true'] {
+    border-color: var(--danger);
+  }
+
+  .field__input[aria-invalid='true']:focus {
+    box-shadow: 0 0 0 4px var(--danger-soft);
+  }
+
+  .field__input--area {
+    min-height: 9.5rem;
+    resize: vertical;
+    line-height: 1.6;
+  }
+
+  .field__footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .field__hint {
+    margin-left: auto;
+    color: var(--text-subtle);
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .field__hint.is-near-limit {
+    color: var(--danger);
+  }
+
+  .field__error {
+    color: var(--danger);
+    font-size: 0.8438rem;
+    line-height: 1.4;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition:
+      opacity var(--duration) var(--ease-out),
+      transform var(--duration) var(--ease-out);
+  }
+
+  .field__error:empty {
+    display: none;
+  }
+
+  .field__error.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .field--trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+
+  .checkbox__input {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0.15rem 0 0;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+
+  .checkbox__input[aria-invalid='true'] {
+    outline: 2px solid var(--danger);
+    outline-offset: 2px;
+  }
+
+  .checkbox__label {
+    color: var(--text-muted);
+    font-size: 0.9063rem;
+    line-height: 1.55;
+    cursor: pointer;
+  }
+
+  .checkbox__label a,
+  .form__notice a {
+    color: var(--text);
+  }
+
+  .form__notice {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-subtle);
+    font-size: 0.8125rem;
+    line-height: 1.6;
+  }
+
+  .form__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .form__submit {
+    min-width: 13rem;
+  }
+
+  .form__spinner {
+    display: none;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid rgb(13 18 3 / 0.25);
+    border-top-color: var(--accent-ink);
+    border-radius: 50%;
+    animation: spin 700ms linear infinite;
+  }
+
+  .is-sending .form__spinner {
+    display: block;
+  }
+
+  .is-sending .form__submit :global(svg) {
+    display: none;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .form__required {
+    color: var(--text-subtle);
+    font-size: 0.8125rem;
+  }
+
+  .form__status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .form__status[data-state='success'],
+  .form__status[data-state='error'] {
+    position: static;
+    display: flex;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    padding: 1rem 1.1rem;
+    border: 1px solid;
+    border-radius: 12px;
+    font-size: 0.9375rem;
+    animation: status-in 400ms var(--ease-out);
+  }
+
+  .form__status[data-state='success'] {
+    border-color: rgb(159 227 160 / 0.35);
+    background: rgb(159 227 160 / 0.08);
+    color: var(--success);
+  }
+
+  .form__status[data-state='error'] {
+    border-color: rgb(255 138 128 / 0.35);
+    background: var(--danger-soft);
+    color: var(--danger);
+  }
+
+  .form__status :global(.form__status-icon) {
+    display: none;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .form__status[data-state='success'] :global(.form__status-icon--success),
+  .form__status[data-state='error'] :global(.form__status-icon--error) {
+    display: block;
+  }
+
+  @keyframes status-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+
+  .form__noscript {
+    margin-top: 1rem;
+    color: var(--danger);
+    font-size: 0.9375rem;
+  }
+
+  @media (min-width: 40rem) {
+    .form__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .field--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .form__spinner {
+      animation-duration: 1.5s !important;
+      animation-iteration-count: infinite !important;
+    }
+  }
+</style>

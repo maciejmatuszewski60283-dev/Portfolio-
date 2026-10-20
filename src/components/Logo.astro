@@ -1,0 +1,49 @@
+---
+import { site } from '@/config/site';
+---
+
+<a class="logo" href="/" aria-label={`${site.name} — strona główna`}>
+  <span class="logo__mark" aria-hidden="true">
+    <svg viewBox="0 0 32 32" width="32" height="32">
+      <rect x="0.5" y="0.5" width="31" height="31" rx="9" />
+      <path d="M7 22V10l4.5 6 4.5-6v12M16 10l4.5 6 4.5-6v12" />
+    </svg>
+  </span>
+  <span class="logo__text">{site.name}</span>
+</a>
+
+<style>
+  .logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .logo__mark svg {
+    overflow: visible;
+  }
+
+  .logo__mark rect {
+    fill: var(--accent-soft);
+    stroke: rgb(201 242 122 / 0.35);
+    transition: stroke 300ms var(--ease-out);
+  }
+
+  .logo__mark path {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .logo:hover .logo__mark rect {
+    stroke: var(--accent);
+  }
+</style>

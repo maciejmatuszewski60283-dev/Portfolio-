@@ -1,0 +1,248 @@
+---
+import Icon from './Icon.astro';
+import { site } from '@/config/site';
+---
+
+{site.discordUrl && (
+  <aside class="discord" aria-labelledby="discord-title" data-discord hidden>
+    <button
+      class="discord__close"
+      type="button"
+      aria-label="Zamknij powiadomienie"
+      data-discord-close
+    >
+      <Icon name="close" size={18} />
+    </button>
+    <div class="discord__head">
+      <span class="discord__icon">
+        <Icon name="discord" size={22} />
+      </span>
+      <p class="discord__title" id="discord-title">
+        Masz pomysł na projekt?
+      </p>
+    </div>
+    <p class="discord__text">
+      Napisz do mnie na Discordzie — porozmawiamy o Twojej stronie lub aplikacji.
+    </p>
+    <a
+      class="btn btn--primary discord__cta"
+      href={site.discordUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-discord-link
+    >
+      Napisz na Discordzie
+      <Icon name="arrow-up-right" />
+      <span class="visually-hidden">(otwiera się w nowej karcie)</span>
+    </a>
+  </aside>
+)}
+
+<script>
+  const STORAGE_KEY = 'mm:discord-popup-dismissed';
+  const REMIND_AFTER_MS = 7 * 24 * 60 * 60 * 1000;
+  const SHOW_DELAY_MS = 1200;
+
+  const popup = document.querySelector<HTMLElement>('[data-discord]');
+
+  const storage = (() => {
+    try {
+      const store = window.localStorage;
+      store.setItem(`${STORAGE_KEY}:probe`, '1');
+      store.removeItem(`${STORAGE_KEY}:probe`);
+      return store;
+    } catch {
+      return null;
+    }
+  })();
+
+  const dismissedAt = Number(storage?.getItem(STORAGE_KEY)) || 0;
+
+  if (popup && !popup.dataset.initialized && Date.now() - dismissedAt > REMIND_AFTER_MS) {
+    popup.dataset.initialized = 'true';
+    const contact = document.getElementById('kontakt');
+    let dismissed = false;
+    let suppressed = { contact: false, menu: false };
+
+    const sync = () => {
+      const hide = dismissed || suppressed.contact || suppressed.menu;
+      popup.classList.toggle('is-visible', !hide);
+      popup.inert = hide;
+    };
+
+    const dismiss = () => {
+      if (dismissed) return;
+      dismissed = true;
+      storage?.setItem(STORAGE_KEY, String(Date.now()));
+      const hadFocus = popup.contains(document.activeElement);
+      popup.hidden = true;
+      sync();
+      if (hadFocus) document.getElementById('tresc')?.focus({ preventScroll: true });
+    };
+
+    popup.querySelector('[data-discord-close]')?.addEventListener('click', dismiss);
+    popup.querySelector('[data-discord-link]')?.addEventListener('click', () => {
+      window.setTimeout(dismiss, 150);
+    });
+
+    popup.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.stopPropagation();
+        dismiss();
+      }
+    });
+
+    document.addEventListener('menu:toggle', (event) => {
+      suppressed = { ...suppressed, menu: (event as CustomEvent<{ open: boolean }>).detail.open };
+      sync();
+    });
+
+    if (contact && 'IntersectionObserver' in window) {
+      new IntersectionObserver(
+        ([entry]) => {
+          suppressed = { ...suppressed, contact: entry.isIntersecting };
+          sync();
+        },
+        { threshold: 0.15 },
+      ).observe(contact);
+    }
+
+    window.setTimeout(() => {
+      if (dismissed) return;
+      popup.hidden = false;
+      requestAnimationFrame(() => requestAnimationFrame(sync));
+    }, SHOW_DELAY_MS);
+  }
+</script>
+
+<style>
+  .discord {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    left: max(1rem, env(safe-area-inset-left));
+    z-index: 40;
+    max-width: 22.5rem;
+    margin-left: auto;
+    padding: 1.25rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    background: rgb(17 19 23 / 0.94);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.05) inset,
+      0 24px 60px -20px rgb(0 0 0 / 0.75);
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    pointer-events: none;
+    transition:
+      opacity 360ms var(--ease-out),
+      transform 460ms var(--ease-out);
+  }
+
+  @supports (backdrop-filter: blur(1px)) {
+    .discord {
+      background: rgb(17 19 23 / 0.82);
+      backdrop-filter: blur(18px) saturate(150%);
+    }
+  }
+
+  .discord.is-visible {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .discord__close {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-muted);
+    transition:
+      background-color var(--duration) var(--ease-out),
+      color var(--duration) var(--ease-out);
+  }
+
+  .discord__close:hover {
+    background: var(--surface-strong);
+    color: var(--text);
+  }
+
+  .discord__head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-right: 2rem;
+  }
+
+  .discord__icon {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 12px;
+    background: #5865f2;
+    color: #fff;
+  }
+
+  .discord__title {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+  }
+
+  .discord__text {
+    margin-top: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.9063rem;
+    line-height: 1.55;
+  }
+
+  .discord__cta {
+    width: 100%;
+    min-height: 2.75rem;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 39.99rem) {
+    .discord {
+      padding: 0.9rem;
+    }
+
+    .discord__text {
+      display: none;
+    }
+
+    .discord__icon {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .discord__close {
+      top: 0.45rem;
+      right: 0.45rem;
+    }
+
+    .discord__cta {
+      margin-top: 0.8rem;
+    }
+  }
+
+  @media (min-width: 40rem) {
+    .discord {
+      right: max(1.5rem, env(safe-area-inset-right));
+      bottom: max(1.5rem, env(safe-area-inset-bottom));
+      left: auto;
+    }
+  }
+</style>

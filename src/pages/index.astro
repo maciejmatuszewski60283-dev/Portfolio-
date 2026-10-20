@@ -1,0 +1,23 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import About from '@/components/About.astro';
+import Contact from '@/components/Contact.astro';
+import DiscordPopup from '@/components/DiscordPopup.astro';
+import Faq from '@/components/Faq.astro';
+import Hero from '@/components/Hero.astro';
+import Process from '@/components/Process.astro';
+import Projects from '@/components/Projects.astro';
+import Services from '@/components/Services.astro';
+import { homeStructuredData } from '@/lib/structured-data';
+---
+
+<BaseLayout type="profile" structuredData={[homeStructuredData()]}>
+  <Hero />
+  <About />
+  <Services />
+  <Projects />
+  <Process />
+  <Faq />
+  <Contact />
+  <DiscordPopup slot="after" />
+</BaseLayout>
